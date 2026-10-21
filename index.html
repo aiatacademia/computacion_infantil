@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diplomado de Programación para Niños (8 a 12 años)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --sky: #1E9BD7;
+    --sky-dark: #0E6FA3;
+    --berry: #FF5C8A;
+    --berry-dark: #D63E6C;
+    --sun: #FFB100;
+    --grass: #38C172;
+    --bg: #FFF8EC;
+    --mica: rgba(255,255,255,0.78);
+    --card: #FFFFFF;
+    --text: #22263A;
+    --text-soft: #6B6F8A;
+    --border: rgba(34,38,58,0.09);
+    --shadow: 0 2px 6px rgba(34,38,58,0.08), 0 10px 26px rgba(34,38,58,0.07);
+    --radius: 14px;
+    --radius-lg: 22px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Nunito", "Segoe UI", system-ui, -apple-system, sans-serif;
+    background:
+      radial-gradient(1100px 560px at 90% -10%, rgba(30,155,215,0.16), transparent 60%),
+      radial-gradient(850px 480px at -10% 15%, rgba(255,92,138,0.14), transparent 55%),
+      radial-gradient(700px 400px at 50% 110%, rgba(255,177,0,0.12), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .course-title, .tab, .hero-badge, .stat .num { font-family: "Baloo 2", "Nunito", sans-serif; }
+  a { color: var(--sky-dark); }
+
+  .hero {
+    position: relative; padding: 60px 32px 42px;
+    background: linear-gradient(135deg, var(--sky-dark) 0%, var(--sky) 55%, var(--berry) 130%);
+    color: #fff; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(480px 280px at 92% 6%, rgba(255,255,255,0.22), transparent 60%),
+      radial-gradient(420px 260px at 8% 95%, rgba(255,177,0,0.35), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-decor { position:absolute; font-size: 26px; opacity:0.35; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); pointer-events:none; }
+  .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.32);
+    padding: 7px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; margin-bottom: 18px; backdrop-filter: blur(6px);
+  }
+  .hero h1 { font-size: clamp(28px, 4.2vw, 44px); line-height: 1.15; margin: 0 0 12px; font-weight: 700; max-width: 760px; }
+  .hero p.lead { font-size: 17px; max-width: 620px; color: rgba(255,255,255,0.92); margin: 0 0 30px; line-height: 1.6; font-weight: 600; }
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 14px; }
+  .stat {
+    background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.26);
+    border-radius: var(--radius-lg); padding: 14px 20px; min-width: 130px; backdrop-filter: blur(8px);
+  }
+  .stat .num { font-size: 25px; font-weight: 700; display:block; }
+  .stat .label { font-size: 12.5px; color: rgba(255,255,255,0.85); font-weight: 600; }
+
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; color: var(--sky-dark); font-weight: 800; font-size: 14px;
+    border: none; border-radius: 999px; padding: 12px 22px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18); text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+  .download-btn:hover { transform: translateY(-2px); }
+
+  .hw-strip { max-width: 1100px; margin: -26px auto 0; position: relative; z-index: 2; padding: 0 32px; }
+  .hw-strip-inner {
+    background: var(--mica); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow);
+    padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 10px 22px; justify-content: center;
+  }
+  .hw-item { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--text-soft); white-space: nowrap; }
+  .hw-item .ic { font-size: 19px; }
+
+  .tabs-wrap { max-width: 1100px; margin: 34px auto 0; padding: 0 32px; }
+  .tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tab {
+    flex: 1 1 220px; text-align: left; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 18px; font-size: 16px; font-weight: 700;
+    color: var(--text); cursor: pointer; display: flex; flex-direction: column; gap: 2px;
+    box-shadow: var(--shadow); transition: transform 0.15s ease, border-color 0.15s ease;
+    border-bottom: 4px solid transparent;
+  }
+  .tab:hover { transform: translateY(-2px); }
+  .tab.active { border-bottom: 4px solid var(--grass); color: #1B8A50; }
+  .tab.active:nth-child(2) { border-bottom-color: var(--sky); color: var(--sky-dark); }
+  .tab.active:nth-child(3) { border-bottom-color: var(--berry); color: var(--berry-dark); }
+  .tab-sub { font-size: 12.5px; font-weight: 600; color: var(--text-soft); font-family: "Nunito", sans-serif; }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 28px 32px 80px; }
+  .level-panel { display: none; }
+  .level-panel.active { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity:0; transform: translateY(6px);} to {opacity:1; transform:none;} }
+
+  .level-header {
+    display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+    margin: 22px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 14px;
+  }
+  .level-header h2 { margin: 0; font-size: 23px; font-weight: 700; }
+  .level-header p { margin: 0; color: var(--text-soft); font-size: 14px; font-weight: 700; }
+  .level-desc { margin: 0 0 18px; color: var(--text-soft); font-size: 14px; line-height: 1.6; max-width: 760px; }
+
+  .course-grid { display: flex; flex-direction: column; gap: 10px; }
+  .course-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .course-card summary {
+    list-style: none; cursor: pointer; padding: 16px 18px;
+    display: grid; grid-template-columns: 34px 38px 1fr auto 20px; align-items: center; gap: 12px;
+  }
+  .course-card summary::-webkit-details-marker { display: none; }
+  .course-num {
+    font-size: 13px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--sky), var(--berry));
+    width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .course-icon { font-size: 23px; text-align: center; }
+  .course-heading { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .course-title { font-weight: 700; font-size: 15.5px; }
+  .course-tool { font-size: 12px; font-weight: 700; color: var(--sky-dark); font-family: "Nunito", sans-serif; }
+  .course-duration {
+    font-size: 13px; font-weight: 800; color: var(--sky-dark);
+    background: rgba(30,155,215,0.10); padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .chev { font-size: 20px; color: var(--text-soft); transition: transform 0.2s ease; justify-self: end; }
+  .course-card[open] .chev { transform: rotate(90deg); color: var(--berry); }
+  .course-card[open] summary { border-bottom: 1px solid var(--border); }
+
+  .course-body { padding: 14px 18px 18px 82px; }
+  .course-obj { font-size: 13.5px; color: var(--text-soft); line-height: 1.6; margin: 0 0 16px; }
+
+  .units-grid { display: flex; flex-direction: column; gap: 10px; }
+  .unit { background: rgba(30,155,215,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+  .unit-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .unit-title { font-weight: 700; font-size: 13.5px; color: var(--sky-dark); }
+  .unit-hrs { font-size: 12px; font-weight: 800; color: var(--berry-dark); background: rgba(255,92,138,0.10); padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+  .unit-topics { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text); line-height: 1.65; }
+  .unit-topics li { margin-bottom: 2px; }
+
+  .note-box { background: #FFF3DA; border: 1px solid rgba(255,177,0,0.35); border-radius: var(--radius); padding: 16px 20px; margin: 24px 0; font-size: 13.5px; color: #6B4E00; line-height: 1.6; }
+  .note-box b { color: #4A3600; }
+
+  .next-box { background: #EAF6FF; border: 1px solid rgba(30,155,215,0.28); border-radius: var(--radius-lg); padding: 24px 26px; margin: 34px 0 10px; }
+  .next-box h3 { margin: 0 0 8px; font-size: 18px; color: var(--sky-dark); }
+  .next-box p { margin: 0 0 12px; font-size: 13.5px; color: var(--text-soft); line-height: 1.6; }
+  .next-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .next-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 13px; }
+  .next-item b { display: block; color: var(--berry-dark); font-size: 13px; margin-bottom: 2px; }
+
+  footer { text-align: center; padding: 30px 20px 50px; color: var(--text-soft); font-size: 13px; }
+  footer .dot { color: var(--sky); }
+  footer .dot2 { color: var(--berry); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 48px 18px 32px; }
+    .tabs-wrap, main, .hw-strip { padding-left: 16px; padding-right: 16px; }
+    .course-card summary { grid-template-columns: 26px 30px 1fr 18px; grid-template-areas: "n icon title chev" "dur dur dur dur"; }
+    .course-duration { justify-self: start; margin-top: 4px; }
+    .course-body { padding-left: 20px; }
+  }
+
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <span class="hero-decor" style="top:14%; right:8%;">✨</span>
+    <span class="hero-decor" style="bottom:10%; left:6%;">🌟</span>
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div>
+          <span class="hero-badge">🧒 Diplomado para niños · 8 a 12 años</span>
+          <h1>Diplomado de Programación para Niños</h1>
+          <p class="lead">Un camino de aprendizaje en 3 niveles, con las mismas herramientas que se usan hoy en escuelas de todo el mundo para enseñar tecnología a niños: Scratch, micro:bit, LEGO Education, Arduino, Raspberry Pi, Python y más.</p>
+        </div>
+        <a class="download-btn" id="downloadBtn" href="#" download="diplomado-programacion-ninos.html">⬇ Descargar esta página</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="num">3</span><span class="label">Niveles</span></div>
+        <div class="stat"><span class="num">30</span><span class="label">Cursos</span></div>
+        <div class="stat"><span class="num">226</span><span class="label">Horas totales</span></div>
+        <div class="stat"><span class="num">6-8h</span><span class="label">Por curso</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="hw-strip">
+    <div class="hw-strip-inner">
+      <span class="hw-item"><span class="ic">💻</span>Laptops / Tablets</span>
+      <span class="hw-item"><span class="ic">🪟</span>Windows 11</span>
+      <span class="hw-item"><span class="ic">🐧</span>Linux (Ubuntu)</span>
+      <span class="hw-item"><span class="ic">🐱</span>Scratch (MIT)</span>
+      <span class="hw-item"><span class="ic">🛰️</span>micro:bit</span>
+      <span class="hw-item"><span class="ic">🧱</span>LEGO Education SPIKE</span>
+      <span class="hw-item"><span class="ic">🔌</span>Arduino</span>
+      <span class="hw-item"><span class="ic">🍓</span>Raspberry Pi</span>
+      <span class="hw-item"><span class="ic">🖨️</span>Impresora 3D</span>
+      <span class="hw-item"><span class="ic">📊</span>LibreOffice / MS Office</span>
+      <span class="hw-item"><span class="ic">🐍</span>Python</span>
+      <span class="hw-item"><span class="ic">📱</span>App Inventor (MIT)</span>
+      <span class="hw-item"><span class="ic">🧠</span>IA para niños</span>
+      <span class="hw-item"><span class="ic">🛡️</span>Internet seguro</span>
+    </div>
+  </div>
+
+  <div class="tabs-wrap">
+    <nav class="tabs" id="tabs">
+      <button class="tab" data-target="nivel1">Nivel Inicial<span class="tab-sub">8 a 9 años</span></button>
+      <button class="tab" data-target="nivel2">Nivel Intermedio<span class="tab-sub">9 a 11 años</span></button>
+      <button class="tab" data-target="nivel3">Nivel Avanzado<span class="tab-sub">11 a 12 años</span></button>
+    </nav>
+  </div>
+
+  <main>
+    <div class="note-box">
+      <b>Nota para madres, padres y docentes:</b> las edades son orientativas; lo importante es el nivel de experiencia previa de cada niño o niña. El diplomado incluye el manejo de los dos sistemas operativos más usados en el mundo, Windows 11 y Linux (Ubuntu), como base antes de pasar a herramientas más especializadas. Todas las herramientas usadas (Scratch, micro:bit, LEGO Education, Arduino, Raspberry Pi, LibreOffice, Teachable Machine, App Inventor, Roblox Studio) son gratuitas, de bajo costo o accesibles para instituciones educativas, y cuentan con versiones o guías pensadas especialmente para el aula. Las prácticas con Arduino y Raspberry Pi deben hacerse siempre con supervisión de un instructor. Se recomienda acompañamiento de un adulto en las unidades de internet seguro y en cualquier actividad que implique publicar contenido en línea.
+    </div>
+    
+    <section class="level-panel" id="nivel1">
+      <div class="level-header">
+        <h2>Nivel Inicial (8 a 9 años)</h2>
+        <p>8 cursos · 56 horas</p>
+      </div>
+      <p class="level-desc">Primer contacto con la computadora, el teclado, internet seguro y la programación en bloques, usando herramientas pensadas especialmente para niños que recién comienzan.</p>
+      <div class="course-grid">
+        <details class="course-card">
+          <summary>
+            <span class="course-num">1</span>
+            <span class="course-icon">🖥️</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Computadora y el Mundo Digital</span>
+              <span class="course-tool">Windows 11 · exploración guiada</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Primer acercamiento de la niña o el niño a la computadora: cómo encenderla, usar el mouse y el teclado, y entender para qué sirve internet. Al terminar, reconoce las partes principales del equipo y navega con confianza y supervisión.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Descubriendo mi computadora</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Partes de la computadora: pantalla, teclado, mouse</li><li>Encender, apagar y cuidar el equipo</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">El mundo de internet</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Qué es internet y el navegador</li><li>Buscar información con ayuda de un adulto</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Guardando mis trabajos</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Carpetas y archivos</li><li>Guardar en la nube de forma sencilla (OneDrive para niños)</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">2</span>
+            <span class="course-icon">⌨️</span>
+            <span class="course-heading">
+              <span class="course-title">Mecanografía Divertida</span>
+              <span class="course-tool">TypingClub</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso práctico para que el estudiante aprenda a escribir en el teclado usando las dos manos, con juegos y retos de velocidad apropiados para su edad, en la plataforma TypingClub, muy usada en escuelas de todo el mundo.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Conociendo el teclado</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Fila guía y posición de los dedos</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Escribiendo con las dos manos</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Ejercicios progresivos en TypingClub</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Juegos de velocidad</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Retos y medallas por precisión y rapidez</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">3</span>
+            <span class="course-icon">🛡️</span>
+            <span class="course-heading">
+              <span class="course-title">Internet Seguro y Buen Ciudadano Digital</span>
+              <span class="course-tool">Be Internet Awesome (Google) · Interland</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso de ciudadanía digital que enseña a los niños a navegar de forma segura, reconocer información falsa y tratar con respeto a otras personas en línea, usando el programa gratuito Be Internet Awesome de Google y su juego Interland.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Reglas para navegar seguro</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Información personal: qué compartir y qué no</li><li>Pedir ayuda a un adulto de confianza</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Jugando en Interland</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Misiones del juego Interland de Google</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Buen trato en internet</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Cómo tratar a otros en línea, qué hacer ante el mal trato</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">4</span>
+            <span class="course-icon">🐱</span>
+            <span class="course-heading">
+              <span class="course-title">Mis Primeros Bloques de Código</span>
+              <span class="course-tool">Scratch (MIT) · Code.org</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Introducción a la programación con bloques, el método más usado en el mundo para enseñar a programar a niños. El estudiante crea sus primeras animaciones y pequeñas historias en Scratch, la plataforma del MIT usada por millones de niños.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es programar</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Bloques, secuencias e instrucciones</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mi primer proyecto en Scratch</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Cuenta de Scratch para niños</li><li>Moviendo y animando al gato de Scratch</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Compartiendo mi animación</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Guardar y mostrar el proyecto a la familia</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">5</span>
+            <span class="course-icon">🐝</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Primer Robot</span>
+              <span class="course-tool">micro:bit · MakeCode</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Primer acercamiento a la robótica con el micro:bit, una placa diseñada especialmente para la enseñanza y usada en escuelas de más de 60 países. El estudiante programa luces, sonidos y movimientos con bloques, sin necesidad de escribir código.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es un robot</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Partes de una placa programable</li><li>Conectar el micro:bit a la computadora</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mi primer programa</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Bloques en MakeCode</li><li>Encender luces y mostrar mensajes</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Sonidos y sorpresas</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Agregar sonido y reacciones al mover el micro:bit</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">6</span>
+            <span class="course-icon">🎨</span>
+            <span class="course-heading">
+              <span class="course-title">Creatividad Digital</span>
+              <span class="course-tool">Canva for Education</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso de diseño digital pensado para que el estudiante exprese su creatividad con herramientas seguras y gratuitas para escuelas, creando tarjetas, afiches y dibujos sencillos.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Herramientas de dibujo digital</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Formas, colores y texto</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mi primera tarjeta o afiche</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Plantillas de Canva for Education</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Compartiendo mis creaciones</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Guardar e imprimir mi trabajo</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">7</span>
+            <span class="course-icon">⛏️</span>
+            <span class="course-heading">
+              <span class="course-title">Aventuras de Código en Minecraft</span>
+              <span class="course-tool">Minecraft Education Edition</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso que aprovecha un videojuego muy popular entre los niños para enseñar los primeros pasos del pensamiento computacional, usando Minecraft Education Edition y su herramienta Code Connection, empleada en miles de escuelas del mundo.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Explorando Minecraft Education</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>El mundo educativo de Minecraft</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Programando con Code Connection</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Bloques de código dentro del juego</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Construyendo con código</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Mi primera construcción programada</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">8</span>
+            <span class="course-icon">🧠</span>
+            <span class="course-heading">
+              <span class="course-title">Lógica y Pensamiento Computacional</span>
+              <span class="course-tool">Juegos de lógica sin pantalla y con pantalla</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso de base que desarrolla la lógica del estudiante a través de patrones, secuencias y acertijos, preparando el pensamiento necesario para programar, con actividades tanto en papel como en pantalla.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Patrones y secuencias</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Encontrar el siguiente paso en un patrón</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Resolviendo acertijos</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Juegos de lógica apropiados para la edad</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Pasos para resolver un problema</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Pensamiento computacional explicado con ejemplos cotidianos</li></ul></div></div>
+          </div>
+        </details></div>
+    </section>
+    <section class="level-panel" id="nivel2">
+      <div class="level-header">
+        <h2>Nivel Intermedio (9 a 11 años)</h2>
+        <p>10 cursos · 76 horas</p>
+      </div>
+      <p class="level-desc">El estudiante aprende a manejar bien el sistema operativo Windows 11, construye sus propios videojuegos, páginas web y documentos de oficina, y da sus primeros pasos en un lenguaje de programación de texto real como Python.</p>
+      <div class="course-grid">
+        <details class="course-card">
+          <summary>
+            <span class="course-num">9</span>
+            <span class="course-icon">🪟</span>
+            <span class="course-heading">
+              <span class="course-title">Sistema Operativo I: Windows 11 para Jóvenes Programadores</span>
+              <span class="course-tool">Windows 11 · Explorador de archivos</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso práctico sobre el sistema operativo más usado en computadoras de escuelas y hogares. El estudiante aprende a organizar archivos y carpetas, personalizar su computadora, y da sus primeros pasos con la línea de comandos de forma sencilla y guiada, como base para los sistemas operativos que verá más adelante.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Explorando Windows 11</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Escritorio, menú de inicio y configuración básica</li><li>Organizando el escritorio y la barra de tareas</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Archivos y carpetas</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Crear, mover y organizar carpetas</li><li>Buscar archivos y usar la papelera de reciclaje</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mis primeros comandos</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Qué es una terminal: conociendo el Símbolo del Sistema</li><li>Comandos sencillos y divertidos (fecha, hora, dibujos en texto)</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">10</span>
+            <span class="course-icon">🧶</span>
+            <span class="course-heading">
+              <span class="course-title">Scratch: Variables y Videojuegos</span>
+              <span class="course-tool">Scratch (MIT)</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante avanza en Scratch incorporando variables, eventos y condicionales para crear sus propios videojuegos sencillos, afianzando la lógica de programación de forma visual.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Variables y operadores</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Puntajes, vidas y contadores</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Eventos, bucles y condicionales</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Si el personaje toca algo...</li><li>Repetir acciones mientras algo ocurra</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Proyecto: mi videojuego</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Un juego sencillo con puntaje y niveles</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">11</span>
+            <span class="course-icon">🤖</span>
+            <span class="course-heading">
+              <span class="course-title">Robótica con LEGO SPIKE Essential</span>
+              <span class="course-tool">LEGO Education SPIKE Essential</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso de robótica educativa con LEGO SPIKE Essential, uno de los kits más usados a nivel mundial en escuelas primarias, donde el estudiante arma y programa su propio robot con bloques.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Armando mi primer robot</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Piezas y motores de SPIKE Essential</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Programando con la app SPIKE</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Bloques de movimiento y espera</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Sensores del robot</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Sensor de luz, color y movimiento</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">12</span>
+            <span class="course-icon">🐍</span>
+            <span class="course-heading">
+              <span class="course-title">Mis Primeros Pasos en Python</span>
+              <span class="course-tool">Python con Trinket</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Primera introducción a un lenguaje de programación de texto real, usando Python de forma sencilla a través de Trinket, una plataforma gratuita en el navegador pensada para principiantes.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es Python</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Escribiendo mis primeras líneas de código</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Variables, texto y números</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Guardar y mostrar información</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Dibujando con la tortuga</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Gráficos sencillos con Python Turtle</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">13</span>
+            <span class="course-icon">🌐</span>
+            <span class="course-heading">
+              <span class="course-title">Creando mi Primera Página Web</span>
+              <span class="course-tool">HTML y CSS</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante aprende los lenguajes que construyen internet, HTML y CSS, creando su propia página web sencilla con texto, imágenes y color.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es una página web</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Cómo funciona internet, en palabras simples</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Etiquetas HTML</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Títulos, párrafos, imágenes y listas</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Dándole estilo con CSS</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Colores, tamaños y espacios</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">14</span>
+            <span class="course-icon">📊</span>
+            <span class="course-heading">
+              <span class="course-title">Herramientas de Oficina para Proyectos Escolares</span>
+              <span class="course-tool">LibreOffice (Writer, Calc, Impress) · equivalente a Microsoft Word, Excel y PowerPoint</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso práctico para que el estudiante aprenda a usar un procesador de texto, una hoja de cálculo y un programa de presentaciones, habilidades que le sirven de inmediato en la escuela. Se usa LibreOffice por ser gratuito, con equivalencia directa a Microsoft Word, Excel y PowerPoint, que el estudiante también reconocerá si los usa en su colegio.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Documentos de texto</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Escribir y dar formato en Writer / Word</li><li>Insertar imágenes y listas</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Hojas de cálculo</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Sumas y tablas sencillas en Calc / Excel</li><li>Crear un gráfico a partir de datos</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Presentaciones</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Una presentación corta con texto e imágenes en Impress / PowerPoint</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">15</span>
+            <span class="course-icon">🎮</span>
+            <span class="course-heading">
+              <span class="course-title">Diseño de Videojuegos</span>
+              <span class="course-tool">Scratch · Code.org</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso centrado en el diseño de juegos: el estudiante planifica, construye y mejora un videojuego propio, aplicando creatividad junto con la lógica de programación.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Planificando mi videojuego</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Idea, personajes e historia</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Puntajes y niveles</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Construcción del juego paso a paso</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Probando y mejorando</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Pedir opiniones y corregir errores</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">16</span>
+            <span class="course-icon">🧠</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Primer Proyecto de Inteligencia Artificial</span>
+              <span class="course-tool">Teachable Machine (Google)</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Introducción a la inteligencia artificial de forma segura y sencilla, usando Teachable Machine de Google para entrenar un modelo que reconoce imágenes, sonidos o gestos.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es la inteligencia artificial</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Ejemplos de IA en la vida diaria</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Entrenando mi modelo</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Reconocimiento de imágenes con Teachable Machine</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Usando la IA con responsabilidad</span><span class="unit-hrs">1h</span></div><ul class="unit-topics"><li>Qué puede y qué no puede hacer una IA</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">17</span>
+            <span class="course-icon">🛰️</span>
+            <span class="course-heading">
+              <span class="course-title">micro:bit Avanzado</span>
+              <span class="course-tool">micro:bit · MakeCode (bloques y texto)</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante profundiza en el uso del micro:bit, incorporando sensores adicionales y la comunicación entre dos placas, para construir un pequeño proyecto propio.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Sensores del micro:bit</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Temperatura, luz y brújula</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Comunicación por radio</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Enviar mensajes entre dos micro:bit</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Proyecto: mini estación</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Un proyecto sencillo que usa varios sensores</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">18</span>
+            <span class="course-icon">🧊</span>
+            <span class="course-heading">
+              <span class="course-title">Diseño e Impresión 3D</span>
+              <span class="course-tool">Tinkercad</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso de diseño 3D con Tinkercad, la herramienta gratuita más usada por escuelas de todo el mundo para iniciar a los niños en el modelado digital, con la posibilidad de imprimir el resultado.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Formas básicas en 3D</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Herramientas de Tinkercad</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Diseñando mi objeto</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Un llavero, una figura o un juguete propio</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">De la pantalla a la impresora</span><span class="unit-hrs">1h</span></div><ul class="unit-topics"><li>Cómo se imprime un diseño en 3D</li></ul></div></div>
+          </div>
+        </details></div>
+    </section>
+    <section class="level-panel" id="nivel3">
+      <div class="level-header">
+        <h2>Nivel Avanzado (11 a 12 años)</h2>
+        <p>12 cursos · 94 horas</p>
+      </div>
+      <p class="level-desc">Proyectos más completos: un primer acercamiento a Linux, electrónica programable con Arduino y Raspberry Pi, apps móviles, videojuegos en Roblox Studio, bases de datos, inteligencia artificial y un proyecto final propio.</p>
+      <div class="course-grid">
+        <details class="course-card">
+          <summary>
+            <span class="course-num">19</span>
+            <span class="course-icon">🐍</span>
+            <span class="course-heading">
+              <span class="course-title">Python Intermedio</span>
+              <span class="course-tool">Python con Replit</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante avanza en Python incorporando condicionales, bucles y funciones sencillas, usando Replit, una plataforma profesional en el navegador también usada por programadores adultos.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Condicionales y bucles</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Tomar decisiones y repetir acciones en el código</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Listas y funciones sencillas</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Organizar datos y reutilizar código</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Proyecto: juego o calculadora</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Un pequeño programa funcional</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">20</span>
+            <span class="course-icon">📱</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Primera App Móvil</span>
+              <span class="course-tool">MIT App Inventor</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso para construir una aplicación de teléfono real con MIT App Inventor, herramienta gratuita creada por el MIT que permite programar apps con bloques y probarlas en un teléfono o tableta.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Diseñando la pantalla</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Botones, textos e imágenes de mi app</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Programando con bloques</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Qué pasa cuando el usuario toca un botón</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Probando mi app</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Instalar y mostrar la app en un dispositivo</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">21</span>
+            <span class="course-icon">🐧</span>
+            <span class="course-heading">
+              <span class="course-title">Sistema Operativo II: Primeros Pasos en Linux (Ubuntu)</span>
+              <span class="course-tool">Linux Ubuntu · Terminal</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso que introduce al estudiante a Linux, el sistema operativo que usa la mayoría de los servidores de internet y que también corre en la Raspberry Pi. A través de Ubuntu, el estudiante conoce un sistema distinto a Windows y aprende sus primeros comandos de terminal, preparándose para el curso de Raspberry Pi que viene a continuación.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es Linux</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Linux y Windows: en qué se parecen y en qué no</li><li>Conociendo el escritorio de Ubuntu</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">La terminal de Linux</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Comandos básicos: ver, crear y mover carpetas (ls, cd, mkdir)</li><li>Practicar en una terminal segura dentro del navegador</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Linux en la vida real</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Dónde se usa Linux: desde servidores hasta la Raspberry Pi</li><li>Conectando lo aprendido con el curso de Raspberry Pi</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">22</span>
+            <span class="course-icon">🔌</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Primer Proyecto con Arduino</span>
+              <span class="course-tool">Arduino (placa real) + Tinkercad Circuits (simulación)</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Introducción a la electrónica programable con Arduino, la plataforma de hardware libre más usada en el mundo para la enseñanza. El estudiante aprende a conectar componentes sencillos (luces LED, botones, sensores) y a programarlos con el lenguaje de bloques y texto simplificado de Arduino, practicando primero en el simulador gratuito Tinkercad Circuits antes de usar una placa real, para programar con seguridad.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es Arduino y cómo se conecta</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>La placa Arduino y sus partes</li><li>Simulando circuitos seguros en Tinkercad Circuits</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mi primer circuito con luces</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Encender y apagar un LED con código</li><li>Luces que parpadean en secuencia</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Botones y sensores sencillos</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Un botón que enciende una luz</li><li>Un sensor sencillo (luz o temperatura)</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">23</span>
+            <span class="course-icon">🍓</span>
+            <span class="course-heading">
+              <span class="course-title">Mi Primer Proyecto con Raspberry Pi</span>
+              <span class="course-tool">Raspberry Pi + Python</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Introducción a la Raspberry Pi, una computadora pequeña y económica muy usada en escuelas y por aficionados a la tecnología en todo el mundo. El estudiante la enciende, explora su sistema operativo y escribe sus primeros programas sencillos en Python para controlar luces y leer sensores.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es una Raspberry Pi</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Partes de la Raspberry Pi y cómo encenderla</li><li>Su propio sistema operativo (Raspberry Pi OS)</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mis primeros programas</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Escribiendo código sencillo en Python en la Raspberry Pi</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Conectando luces y sensores</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Encender un LED desde código</li><li>Leer un sensor sencillo conectado a la placa</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">24</span>
+            <span class="course-icon">🧩</span>
+            <span class="course-heading">
+              <span class="course-title">Robótica Avanzada: Arduino, Raspberry y LEGO</span>
+              <span class="course-tool">LEGO SPIKE Prime · Arduino · Raspberry Pi, a elección</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante construye un robot más complejo, eligiendo entre LEGO SPIKE Prime, Arduino o Raspberry Pi según lo que más le haya gustado, integrando varios sensores y motores para resolver un reto concreto.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Construcción con varios sensores</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Armado de un robot más completo</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Movimientos y decisiones</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Programar al robot para reaccionar a su entorno</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Reto: el laberinto</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Mi robot encuentra la salida de un laberinto</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">25</span>
+            <span class="course-icon">🕹️</span>
+            <span class="course-heading">
+              <span class="course-title">Mis Primeros Scripts en Roblox Studio</span>
+              <span class="course-tool">Roblox Studio (Lua)</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Introducción a la creación de juegos en Roblox Studio, una de las plataformas de videojuegos más usadas por niños y jóvenes en el mundo, donde el estudiante escribe sus primeros scripts en el lenguaje Lua.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Explorando Roblox Studio</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>El editor y sus herramientas</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mis primeros scripts</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Instrucciones básicas en Lua</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Creando un mini-juego</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Un juego sencillo para compartir con amigos</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">26</span>
+            <span class="course-icon">🌐</span>
+            <span class="course-heading">
+              <span class="course-title">Páginas Web con Estilo</span>
+              <span class="course-tool">HTML, CSS y JavaScript sencillo</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">El estudiante mejora su página web agregando interactividad sencilla con JavaScript, y aprende a publicarla en internet para que otras personas puedan verla.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Repaso de HTML y CSS</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Mejorando el diseño de mi página</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Interactividad con JavaScript</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Botones que hacen algo al hacer clic</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Publicando mi página</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Compartir mi trabajo en internet, con ayuda de un adulto</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">27</span>
+            <span class="course-icon">🗂️</span>
+            <span class="course-heading">
+              <span class="course-title">Introducción a las Bases de Datos</span>
+              <span class="course-tool">Tablas en Google Sheets / Airtable · primeras consultas con SQLBolt</span>
+            </span>
+            <span class="course-duration">6h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso introductorio al concepto de base de datos, usando tablas visuales sencillas para entender qué es una fila, una columna y una relación entre datos, con una primera práctica guiada de consultas simples, como preparación para el uso de bases de datos reales como MySQL más adelante.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Qué es una base de datos</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Tablas, filas y columnas con ejemplos cotidianos</li><li>Crear una tabla sencilla en Google Sheets o Airtable</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Relacionando información</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Cómo se conectan dos tablas distintas</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Mis primeras consultas</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Preguntas sencillas a los datos, con SQLBolt</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">28</span>
+            <span class="course-icon">🧠</span>
+            <span class="course-heading">
+              <span class="course-title">Inteligencia Artificial para Jóvenes Creadores</span>
+              <span class="course-tool">Machine Learning for Kids</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Curso que profundiza en inteligencia artificial con Machine Learning for Kids, una herramienta educativa creada por IBM, donde el estudiante entrena modelos con texto e imágenes y los conecta con Scratch.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Entrenando modelos</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Modelos de texto e imágenes</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Proyecto con IA y Scratch</span><span class="unit-hrs">3h</span></div><ul class="unit-topics"><li>Un proyecto que combina IA con bloques de Scratch</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Ética y uso responsable</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Cómo usar la inteligencia artificial de forma correcta</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">29</span>
+            <span class="course-icon">🚀</span>
+            <span class="course-heading">
+              <span class="course-title">Proyecto Integrador: Mi App o Videojuego Final</span>
+              <span class="course-tool">Scratch, App Inventor o Python, a elección</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Proyecto final donde el estudiante aplica lo aprendido durante el diplomado para crear y presentar su propio videojuego o aplicación, eligiendo la herramienta con la que se sienta más cómodo.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Planificando mi proyecto</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Idea, objetivo y herramienta a usar</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Construyendo el proyecto</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Desarrollo guiado del proyecto final</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Presentación final</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Mostrar el proyecto a compañeros y familia</li></ul></div></div>
+          </div>
+        </details>
+        <details class="course-card">
+          <summary>
+            <span class="course-num">30</span>
+            <span class="course-icon">🤖</span>
+            <span class="course-heading">
+              <span class="course-title">Proyecto Integrador de Robótica</span>
+              <span class="course-tool">LEGO SPIKE / Arduino / Raspberry Pi / micro:bit, a elección</span>
+            </span>
+            <span class="course-duration">8h</span>
+            <span class="chev">&rsaquo;</span>
+          </summary>
+          <div class="course-body">
+            <p class="course-obj">Proyecto final de robótica en el que el estudiante diseña, programa y presenta un robot o dispositivo que resuelve un reto propio, cerrando el diplomado con una demostración práctica.</p>
+            <div class="units-grid"><div class="unit"><div class="unit-head"><span class="unit-title">Diseño del reto</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Definir qué problema resolverá el proyecto</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Programación y pruebas</span><span class="unit-hrs">4h</span></div><ul class="unit-topics"><li>Construir, programar y ajustar el proyecto</li></ul></div><div class="unit"><div class="unit-head"><span class="unit-title">Presentación final</span><span class="unit-hrs">2h</span></div><ul class="unit-topics"><li>Demostración del proyecto ante el grupo</li></ul></div></div>
+          </div>
+        </details></div>
+    </section>
+    
+    <div class="next-box">
+      <h3>🎓 ¿Qué sigue después de este diplomado?</h3>
+      <p>Al terminar los tres niveles, el o la estudiante puede continuar al <b>Diplomado como Programador de Computadoras</b> (jóvenes y adultos), que retoma estos mismos temas con herramientas profesionales.</p>
+      <div class="next-grid">
+        <div class="next-item"><b>C++</b>Lenguaje de texto formal, luego de practicar con Python</div>
+        <div class="next-item"><b>MySQL</b>Bases de datos reales, luego de las tablas de este diplomado</div>
+        <div class="next-item"><b>Arduino / Raspberry Pi</b>Proyectos de mayor complejidad</div>
+        <div class="next-item"><b>Desarrollo web y apps</b>Con marcos de trabajo profesionales</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Diplomado de Programación para Niños <span class="dot">●</span> 3 niveles · 30 cursos · 226 horas <span class="dot2">●</span> Herramientas educativas usadas a nivel mundial
+  </footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.level-panel');
+  function activate(id) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+  }
+  tabs.forEach(t => t.addEventListener('click', () => activate(t.dataset.target)));
+  activate(tabs[0].dataset.target);
+
+  document.getElementById('downloadBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'diplomado-programacion-ninos.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
+
+</body>
+</html>
